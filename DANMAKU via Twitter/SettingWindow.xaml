@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DANMAKU_via_Twitter"
         mc:Ignorable="d"
-        Title="Settings" Height="300" Width="300" Closed="Window_Closed" Icon="pack://siteoforigin:,,,/app.ico">
+        Title="Settings" Height="400" Width="300" Closed="Window_Closed" Icon="pack://siteoforigin:,,,/app.ico">
     <Window.Resources>
         <local:InverseBooleanConverter x:Key="InverseBool" />
     </Window.Resources>
@@ -51,40 +51,54 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
+					<RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="FontFamily" Margin="2" VerticalAlignment="Center" />
-                <TextBlock Text="FontSize (px)" Grid.Row="1" Margin="2" VerticalAlignment="Center" />
-                <TextBlock Text="FontWeight" Grid.Row="2" Margin="2" VerticalAlignment="Center" />
-                <TextBlock Text="FontStyle" Grid.Row="3" Margin="2" VerticalAlignment="Center" />
-                <ComboBox Grid.Column="1" Margin="2" SelectedItem="{Binding FontFamily}" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" SelectionChanged="ComboBox_SelectionChanged" />
-                <TextBox Grid.Column="1" Grid.Row="1" Margin="2" InputMethod.IsInputMethodEnabled="False" Text="{Binding FontSize,Mode=TwoWay}" Height="22" TextChanged="TextBox_TextChanged" />
-                <ComboBox Grid.Column="1" Grid.Row="2" Margin="2" SelectedItem="{Binding FontWeight}">
-                    <x:Static Member="FontWeights.Black"/>
-                    <x:Static Member="FontWeights.Bold"/>
-                    <x:Static Member="FontWeights.DemiBold"/>
-                    <x:Static Member="FontWeights.ExtraBlack"/>
-                    <x:Static Member="FontWeights.ExtraBold"/>
-                    <x:Static Member="FontWeights.ExtraLight"/>
-                    <x:Static Member="FontWeights.Heavy"/>
-                    <x:Static Member="FontWeights.Light"/>
-                    <x:Static Member="FontWeights.Medium"/>
-                    <x:Static Member="FontWeights.Normal"/>
-                    <x:Static Member="FontWeights.Regular"/>
-                    <x:Static Member="FontWeights.SemiBold"/>
-                    <x:Static Member="FontWeights.Thin"/>
-                    <x:Static Member="FontWeights.UltraBlack"/>
-                    <x:Static Member="FontWeights.UltraBold"/>
-                    <x:Static Member="FontWeights.UltraLight"/>
-                </ComboBox>
-                <ComboBox Grid.Column="1" Grid.Row="3" Margin="2" SelectedItem="{Binding FontStyle}">
-                    <x:Static Member="FontStyles.Normal"/>
-                    <x:Static Member="FontStyles.Italic"/>
-                    <x:Static Member="FontStyles.Oblique"/>
-                </ComboBox>
+				<TextBlock Text="Color" Grid.Row="1" Margin="2" VerticalAlignment="Center" />
+                <TextBlock Text="FontSize (px)" Grid.Row="2" Margin="2" VerticalAlignment="Center" />
+                <TextBlock Text="FontWeight" Grid.Row="3" Margin="2" VerticalAlignment="Center" />
+                <TextBlock Text="FontStyle" Grid.Row="4" Margin="2" VerticalAlignment="Center" />
+				<ComboBox Grid.Column="1" Margin="2" SelectedItem="{Binding FontFamily}" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" SelectionChanged="ComboBox_SelectionChanged">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding}" FontFamily="{Binding}"/>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+				<ComboBox Grid.Column="1" Grid.Row="1" Margin="2" SelectedValue="{Binding Color}" SelectedValuePath="Content">
+					<ComboBoxItem Background="White" Content="White"/>
+					<ComboBoxItem Background="Red" Content="Red"/>
+					<ComboBoxItem Background="Pink" Content="Pink"/>
+					<ComboBoxItem Background="Orange" Content="Orange"/>
+					<ComboBoxItem Background="Yellow" Content="Yellow"/>
+					<ComboBoxItem Background="Green" Content="Green"/>
+					<ComboBoxItem Background="Cyan" Content="Cyan"/>
+					<ComboBoxItem Background="Blue" Content="Blue"/>
+					<ComboBoxItem Background="Purple" Content="Purple"/>
+					<ComboBoxItem Foreground="White" Background="Black" Content="Black"/>
+				</ComboBox>
+				<TextBox Grid.Column="1" Grid.Row="2" Margin="2" InputMethod.IsInputMethodEnabled="False" Text="{Binding FontSize,Mode=TwoWay}" Height="22" TextChanged="TextBox_TextChanged" />
+                <ComboBox Grid.Column="1" Grid.Row="3" Margin="2" SelectedValue="{Binding FontWeight}" SelectedValuePath="Content">
+					<ComboBoxItem FontWeight="Thin" Content="{x:Static Member=FontWeights.Thin}" />
+					<ComboBoxItem FontWeight="ExtraLight" Content="{x:Static Member=FontWeights.ExtraLight}" />
+					<ComboBoxItem FontWeight="Light" Content="{x:Static Member=FontWeights.Light}" />
+					<ComboBoxItem FontWeight="Normal" Content="{x:Static Member=FontWeights.Normal}" />
+					<ComboBoxItem FontWeight="Medium" Content="{x:Static Member=FontWeights.Medium}" />
+					<ComboBoxItem FontWeight="DemiBold" Content="{x:Static Member=FontWeights.DemiBold}" />
+					<ComboBoxItem FontWeight="Bold" Content="{x:Static Member=FontWeights.Bold}" />
+					<ComboBoxItem FontWeight="ExtraBold" Content="{x:Static Member=FontWeights.ExtraBold}" />
+					<ComboBoxItem FontWeight="Black" Content="{x:Static Member=FontWeights.Black}" />
+					<ComboBoxItem FontWeight="ExtraBlack" Content="{x:Static Member=FontWeights.ExtraBlack}" />
+				</ComboBox>
+                <ComboBox Grid.Column="1" Grid.Row="4" Margin="2" SelectedValue="{Binding FontStyle}" SelectedValuePath="Content">
+					<ComboBoxItem FontStyle="Normal" Content="{x:Static Member=FontStyles.Normal}" />
+					<ComboBoxItem FontStyle="Italic" Content="{x:Static Member=FontStyles.Italic}" />
+					<ComboBoxItem FontStyle="Oblique" Content="{x:Static Member=FontStyles.Oblique}" />
+				</ComboBox>
             </Grid>
         </Border>
         <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="1" Margin="2">

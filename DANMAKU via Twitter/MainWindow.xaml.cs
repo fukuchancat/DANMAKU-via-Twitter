@@ -37,13 +37,14 @@ namespace DANMAKU_via_Twitter
 		private int[] spaces;
 		private double lineHeight;
 
-		private static string ConsumerKey = "(consumer key)";
-		private static string ConsumerSecret = "(consumer secret)";
+		private static string ConsumerKey = "RyFKBrvQa1RQJnxaIqwCQAmKi";
+		private static string ConsumerSecret = "WtHeT2F5Fwo2fNDrIbCy3iOVS5A2whFGUOjgOLjMFFoYiZyNgX";
 		public string Token;
 		public string TokenSecret;
 
 		public bool StreamTimeline { get; set; }
 		public string Query { get; set; }
+		public string Color { get; set; }
 
 		protected override void OnSourceInitialized(EventArgs e)
 		{
@@ -84,6 +85,7 @@ namespace DANMAKU_via_Twitter
 			FontFamily		= new FontFamily(Properties.Settings.Default.FontFamily);
 			FontSize		= Properties.Settings.Default.FontSize;
 			FontStyle		= (FontStyle)propertyInfo.GetValue(null, null);
+			Color			= Properties.Settings.Default.Color;
 		}
 
 		private void createToken()
@@ -248,9 +250,8 @@ namespace DANMAKU_via_Twitter
 			{
 				// ラベルを生成
 				System.Windows.Controls.Label label = new System.Windows.Controls.Label();
-				label.Foreground = Brushes.White;
+				label.Foreground = (SolidColorBrush)new BrushConverter().ConvertFromString(Color);
 				label.Content = str;
-				label.FontWeight = FontWeights.Bold;
 				Canvas.SetBottom(label, pos * lineHeight);
 				canvas.Children.Add(label);
 
@@ -284,6 +285,7 @@ namespace DANMAKU_via_Twitter
 			Properties.Settings.Default.FontFamily = FontFamily.ToString();
 			Properties.Settings.Default.FontSize = FontSize;
 			Properties.Settings.Default.FontStyle = FontStyle.ToString();
+			Properties.Settings.Default.Color = Color;
 			Properties.Settings.Default.Save();
 
 			try

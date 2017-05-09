@@ -118,5 +118,17 @@ namespace DANMAKU_via_Twitter.Properties {
                 this["TokenSecret"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        public string Color {
+            get {
+                return ((string)(this["Color"]));
+            }
+            set {
+                this["Color"] = value;
+            }
+        }
     }
 }
