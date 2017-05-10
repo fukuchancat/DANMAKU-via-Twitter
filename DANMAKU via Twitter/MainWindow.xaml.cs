@@ -143,8 +143,8 @@ namespace DANMAKU_via_Twitter
 			ToolStripMenuItem setItem = new ToolStripMenuItem();
 			ToolStripMenuItem exitItem = new ToolStripMenuItem();
 
-			setItem.Text = "設定";
-			exitItem.Text = "終了";
+			setItem.Text = "Setting";
+			exitItem.Text = "Exit";
 
 			menuStrip.Items.Add(setItem);
 			menuStrip.Items.Add(exitItem);

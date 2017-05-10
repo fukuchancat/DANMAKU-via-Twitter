@@ -8,7 +8,7 @@
         Title="InputBox" Height="140" Width="200" Icon="pack://siteoforigin:,,,/app.ico">
     <Grid>
         <StackPanel Margin="5">
-            <Label x:Name="label" Content="PINコードを入力してください"/>
+            <Label x:Name="label" Content="Enter your PIN code"/>
             <TextBox x:Name="textBox" Height="30" Margin="0,5"/>
             <Button x:Name="button" Content="OK" Click="button_Click"/>
         </StackPanel>

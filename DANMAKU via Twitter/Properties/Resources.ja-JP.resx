@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ReAuth" xml:space="preserve">
-    <value>Twitter Re-Authentication</value>
+    <value>Twitter再認証</value>
   </data>
   <data name="ReceiveSpecific" xml:space="preserve">
-    <value>Receive tweets containing specific words</value>
+    <value>特定の語句を含むツイートを受信する</value>
   </data>
   <data name="ReceiveTimeline" xml:space="preserve">
-    <value>Receive tweets of your timeline</value>
+    <value>タイムラインのツイートを受信する</value>
   </data>
 </root>
