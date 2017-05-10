@@ -46,6 +46,10 @@ namespace DANMAKU_via_Twitter
 		public string Query { get; set; }
 		public string Color { get; set; }
 
+		/// <summary>
+		/// make the window click-through
+		/// </summary>
+		/// <param name="e"></param>
 		protected override void OnSourceInitialized(EventArgs e)
 		{
 			base.OnSourceInitialized(e);
@@ -58,6 +62,9 @@ namespace DANMAKU_via_Twitter
 			SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
 		}
 
+		/// <summary>
+		///// show main window
+		/// </summary>
 		public MainWindow()
         {
             InitializeComponent();
@@ -65,6 +72,9 @@ namespace DANMAKU_via_Twitter
 			initialize();
 		}
 
+		/// <summary>
+		/// initializing
+		/// </summary>
 		private void initialize()
 		{
 			loadSettings();
@@ -74,6 +84,9 @@ namespace DANMAKU_via_Twitter
 			createStream();
 		}
 
+		/// <summary>
+		/// load settings
+		/// </summary>
 		private void loadSettings()
 		{
 			var propertyInfo = typeof(FontStyles).GetProperty(Properties.Settings.Default.FontStyle, BindingFlags.Static|BindingFlags.Public);
@@ -88,6 +101,25 @@ namespace DANMAKU_via_Twitter
 			Color			= Properties.Settings.Default.Color;
 		}
 
+		/// <summary>
+		/// save settings
+		/// </summary>
+		private void saveSettings()
+		{
+			Properties.Settings.Default.Token = Token;
+			Properties.Settings.Default.TokenSecret = TokenSecret;
+			Properties.Settings.Default.StreamTimeline = StreamTimeline;
+			Properties.Settings.Default.Query = Query;
+			Properties.Settings.Default.FontFamily = FontFamily.ToString();
+			Properties.Settings.Default.FontSize = FontSize;
+			Properties.Settings.Default.FontStyle = FontStyle.ToString();
+			Properties.Settings.Default.Color = Color;
+			Properties.Settings.Default.Save();
+		}
+
+		/// <summary>
+		/// create token to connect twitter
+		/// </summary>
 		private void createToken()
 		{
 			if (string.IsNullOrEmpty(Token) || string.IsNullOrEmpty(TokenSecret))
@@ -100,6 +132,9 @@ namespace DANMAKU_via_Twitter
 			}
 		}
 
+		/// <summary>
+		/// authorize with Twitter using OAuth
+		/// </summary>
 		public void authorize()
 		{
 			OAuthSession session = OAuth.Authorize(ConsumerKey, ConsumerSecret);
@@ -121,23 +156,28 @@ namespace DANMAKU_via_Twitter
 			inputBox.ShowDialog();
 		}
 
+		/// <summary>
+		/// calclate the line height and available rows
+		/// </summary>
 		public void calcLine()
 		{
-			// 変数の設定
 			lineHeight = FontFamily.LineSpacing * FontSize;
 			spaces = new int[(int)(SystemParameters.PrimaryScreenHeight / lineHeight)];
 		}
 
+		/// <summary>
+		/// create task icon
+		/// </summary>
 		private void createTaskIcon()
 		{
-			// タスクトレイアイコンを初期化
+			// initializing task icon
 			ShowInTaskbar = false;
 			notifyIcon = new NotifyIcon();
 			notifyIcon.Text = Title;
 			notifyIcon.Icon = new System.Drawing.Icon("app.ico");
 			notifyIcon.Visible = true;
 
-			// コンテキストメニューを初期化
+			// initializing context menu
 			ContextMenuStrip menuStrip = new ContextMenuStrip();
 
 			ToolStripMenuItem setItem = new ToolStripMenuItem();
@@ -155,15 +195,18 @@ namespace DANMAKU_via_Twitter
 			notifyIcon.ContextMenuStrip = menuStrip;
 		}
 
+		/// <summary>
+		/// connect to twitter streaming
+		/// </summary>
 		public void createStream()
 		{
-			// 検索クエリが空白だったりしたらホームタイムラインに接続
-			if (string.IsNullOrEmpty(Query))
+			// if the query is empty, connect to timeline
+			if (string.IsNullOrWhiteSpace(Query))
 			{
 				StreamTimeline = true;
 			}
 
-			// ストリーミング開始
+			// start streaming
 			IConnectableObservable<StreamingMessage> stream;
 			if (StreamTimeline)
 			{
@@ -178,12 +221,19 @@ namespace DANMAKU_via_Twitter
 			disporsable = stream.Connect();
 		}
 
+		/// <summary>
+		/// disconnect from twitter streaming
+		/// </summary>
 		public void disposeStream()
 		{
 			if (disporsable != null)
 				disporsable.Dispose();
 		}
 
+		/// <summary>
+		/// add received tweet to screen
+		/// </summary>
+		/// <param name="str">tweet text</param>
 		private void add(string str)
 		{
 			int line = str.Count(c => c == '\n') + 1;
@@ -193,6 +243,11 @@ namespace DANMAKU_via_Twitter
 			createLabel(str,pos);
 		}
 
+		/// <summary>
+		/// calclate position to draw tweet
+		/// </summary>
+		/// <param name="line">number of lines of tweet</param>
+		/// <returns>position to draw tweet</returns>
 		private int getPos(int line)
 		{
 			int pos = 0;
@@ -227,6 +282,11 @@ namespace DANMAKU_via_Twitter
 			return pos;
 		}
 
+		/// <summary>
+		/// occupy spaces to draw tweet
+		/// </summary>
+		/// <param name="line">number of lines of tweet</param>
+		/// <param name="pos">position to draw tweet</param>
 		private void fillSpaces(int line,int pos)
 		{
 			for (int k = 0; k < line && k < spaces.Length; k++)
@@ -236,26 +296,41 @@ namespace DANMAKU_via_Twitter
 
 			Task.Run(async () => {
 				await Task.Delay(5000);
-				for (int k = 0; k < line && k < spaces.Length; k++)
-				{
-					if (spaces[pos + k] > 0)
-						spaces[pos + k]--;
-				}
+				emptySpaces(line,pos);
 			});
 		}
 
+		/// <summary>
+		/// clear the spaces
+		/// </summary>
+		/// <param name="line">number of lines of tweet</param>
+		/// <param name="pos">position to draw tweet</param>
+		private void emptySpaces(int line,int pos)
+		{
+			for (int k = 0; k < line && k < spaces.Length; k++)
+			{
+				if (spaces[pos + k] > 0)
+					spaces[pos + k]--;
+			}
+		}
+
+		/// <summary>
+		/// draw tweet
+		/// </summary>
+		/// <param name="str">tweet text</param>
+		/// <param name="pos">position to draw tweet</param>
 		private void createLabel(string str,int pos)
 		{
 			Dispatcher.InvokeAsync(() =>
 			{
-				// ラベルを生成
+				// create label
 				System.Windows.Controls.Label label = new System.Windows.Controls.Label();
 				label.Foreground = (SolidColorBrush)new BrushConverter().ConvertFromString(Color);
 				label.Content = str;
 				Canvas.SetBottom(label, pos * lineHeight);
 				canvas.Children.Add(label);
 
-				// アニメーションを生成
+				// set animation
 				DoubleAnimation myDoubleAnimation = new DoubleAnimation();
 				myDoubleAnimation.From = SystemParameters.PrimaryScreenWidth;
 				myDoubleAnimation.To = str.Length * -100;
@@ -270,26 +345,30 @@ namespace DANMAKU_via_Twitter
 			});
 		}
 
+		/// <summary>
+		/// show setting window
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void setItem_Click(object sender, EventArgs e)
 		{
 			SettingWindow settingWindow = new SettingWindow(this);
 			settingWindow.Show();
 		}
 
+		/// <summary>
+		/// shutdown the application
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void exitItem_Click(object sender, EventArgs e)
 		{
-			Properties.Settings.Default.Token = Token;
-			Properties.Settings.Default.TokenSecret = TokenSecret;
-			Properties.Settings.Default.StreamTimeline = StreamTimeline;
-			Properties.Settings.Default.Query = Query;
-			Properties.Settings.Default.FontFamily = FontFamily.ToString();
-			Properties.Settings.Default.FontSize = FontSize;
-			Properties.Settings.Default.FontStyle = FontStyle.ToString();
-			Properties.Settings.Default.Color = Color;
-			Properties.Settings.Default.Save();
+			// save settings
+			saveSettings();
 
 			try
 			{
+				// remove task tray icon
 				notifyIcon.Dispose();
 				System.Windows.Application.Current.Shutdown();
 			}

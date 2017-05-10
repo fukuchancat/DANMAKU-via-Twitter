@@ -15,10 +15,16 @@ namespace DANMAKU_via_Twitter
     {
 		private System.Threading.Mutex mutex = new System.Threading.Mutex(false, "DANMAKU via Twitter");
 
+		/// <summary>
+		/// lock mutex on startup to prevent multiple application instance launching
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void Application_Startup(object sender, StartupEventArgs e)
 		{
 			if (!mutex.WaitOne(0, false))
 			{
+				// if the application is already running, show dialog and exit
 				MessageBox.Show("Application is already running!","DANMAKU via Twitter");
 				mutex.Close();
 				mutex = null;
@@ -26,6 +32,11 @@ namespace DANMAKU_via_Twitter
 			}
 		}
 
+		/// <summary>
+		/// unlock mutex on exit
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void Application_Exit(object sender, ExitEventArgs e)
 		{
 			if (mutex != null)

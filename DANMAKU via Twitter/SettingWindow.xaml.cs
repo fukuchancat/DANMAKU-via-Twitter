@@ -67,7 +67,7 @@ namespace DANMAKU_via_Twitter
 
 			if (string.IsNullOrWhiteSpace(str))
 			{
-				return new ValidationResult(false, "検索する文字列を入力してください");
+				return new ValidationResult(false, "required");
 			}
 			return ValidationResult.ValidResult;
 		}
