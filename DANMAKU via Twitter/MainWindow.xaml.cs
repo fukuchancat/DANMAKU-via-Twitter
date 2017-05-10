@@ -37,8 +37,8 @@ namespace DANMAKU_via_Twitter
 		private int[] spaces;
 		private double lineHeight;
 
-		private static string ConsumerKey = "RyFKBrvQa1RQJnxaIqwCQAmKi";
-		private static string ConsumerSecret = "WtHeT2F5Fwo2fNDrIbCy3iOVS5A2whFGUOjgOLjMFFoYiZyNgX";
+		private static string ConsumerKey = "(ConsumerKey)";
+		private static string ConsumerSecret = "(ConsumerSecret)";
 		public string Token;
 		public string TokenSecret;
 
