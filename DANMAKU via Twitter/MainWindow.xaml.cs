@@ -61,10 +61,10 @@ namespace DANMAKU_via_Twitter
 		{
 			base.OnSourceInitialized(e);
 
-			// Get this window's handle
+			// get this window's handle
 			IntPtr hwnd = new WindowInteropHelper(this).Handle;
 
-			// Change the extended window style to include WS_EX_TRANSPARENT
+			// change the extended window style to include WS_EX_TRANSPARENT
 			int extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
 			SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
 		}
