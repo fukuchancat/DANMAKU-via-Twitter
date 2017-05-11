@@ -46,6 +46,13 @@ namespace DANMAKU_via_Twitter
 		public string Query { get; set; }
 		public string Color { get; set; }
 
+		public MainWindow()
+        {
+            InitializeComponent();
+
+			initialize();
+		}
+
 		/// <summary>
 		/// make the window click-through
 		/// </summary>
@@ -63,17 +70,7 @@ namespace DANMAKU_via_Twitter
 		}
 
 		/// <summary>
-		///// show main window
-		/// </summary>
-		public MainWindow()
-        {
-            InitializeComponent();
-
-			initialize();
-		}
-
-		/// <summary>
-		/// initializing
+		/// initializing on startup
 		/// </summary>
 		private void initialize()
 		{
@@ -118,7 +115,7 @@ namespace DANMAKU_via_Twitter
 		}
 
 		/// <summary>
-		/// create token to connect twitter
+		/// create token for connecting twitter
 		/// </summary>
 		private void createToken()
 		{
@@ -133,7 +130,7 @@ namespace DANMAKU_via_Twitter
 		}
 
 		/// <summary>
-		/// authorize with Twitter using OAuth
+		/// authorize with twitter using OAuth
 		/// </summary>
 		public void authorize()
 		{
@@ -157,7 +154,7 @@ namespace DANMAKU_via_Twitter
 		}
 
 		/// <summary>
-		/// calclate the line height and available rows
+		/// calclate line height
 		/// </summary>
 		public void calcLine()
 		{
@@ -166,7 +163,7 @@ namespace DANMAKU_via_Twitter
 		}
 
 		/// <summary>
-		/// create task icon
+		/// create tray icon
 		/// </summary>
 		private void createTaskIcon()
 		{
@@ -193,6 +190,14 @@ namespace DANMAKU_via_Twitter
 			exitItem.Click += new EventHandler(exitItem_Click);
 
 			notifyIcon.ContextMenuStrip = menuStrip;
+		}
+
+		/// <summary>
+		/// remove tray icon
+		/// </summary>
+		private void destroyTaskIcon()
+		{
+			notifyIcon.Dispose();
 		}
 
 		/// <summary>
@@ -231,7 +236,7 @@ namespace DANMAKU_via_Twitter
 		}
 
 		/// <summary>
-		/// add received tweet to screen
+		/// add received tweet to the screen
 		/// </summary>
 		/// <param name="str">tweet text</param>
 		private void add(string str)
@@ -244,7 +249,7 @@ namespace DANMAKU_via_Twitter
 		}
 
 		/// <summary>
-		/// calclate position to draw tweet
+		/// calclate the position to draw a tweet
 		/// </summary>
 		/// <param name="line">number of lines of tweet</param>
 		/// <returns>position to draw tweet</returns>
@@ -283,10 +288,10 @@ namespace DANMAKU_via_Twitter
 		}
 
 		/// <summary>
-		/// occupy spaces to draw tweet
+		/// occupy spaces to draw a tweet
 		/// </summary>
-		/// <param name="line">number of lines of tweet</param>
-		/// <param name="pos">position to draw tweet</param>
+		/// <param name="line">number of lines of the tweet</param>
+		/// <param name="pos">position to draw the tweet</param>
 		private void fillSpaces(int line,int pos)
 		{
 			for (int k = 0; k < line && k < spaces.Length; k++)
@@ -303,8 +308,8 @@ namespace DANMAKU_via_Twitter
 		/// <summary>
 		/// clear the spaces
 		/// </summary>
-		/// <param name="line">number of lines of tweet</param>
-		/// <param name="pos">position to draw tweet</param>
+		/// <param name="line">number of lines of the tweet</param>
+		/// <param name="pos">position to draw the tweet</param>
 		private void emptySpaces(int line,int pos)
 		{
 			for (int k = 0; k < line && k < spaces.Length; k++)
@@ -318,7 +323,7 @@ namespace DANMAKU_via_Twitter
 		/// draw tweet
 		/// </summary>
 		/// <param name="str">tweet text</param>
-		/// <param name="pos">position to draw tweet</param>
+		/// <param name="pos">position to draw the tweet</param>
 		private void createLabel(string str,int pos)
 		{
 			Dispatcher.InvokeAsync(() =>
@@ -363,13 +368,11 @@ namespace DANMAKU_via_Twitter
 		/// <param name="e"></param>
 		private void exitItem_Click(object sender, EventArgs e)
 		{
-			// save settings
 			saveSettings();
 
 			try
 			{
-				// remove task tray icon
-				notifyIcon.Dispose();
+				destroyTaskIcon();
 				System.Windows.Application.Current.Shutdown();
 			}
 			catch { }

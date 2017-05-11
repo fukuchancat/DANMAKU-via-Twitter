@@ -17,7 +17,7 @@ using System.Windows.Shapes;
 namespace DANMAKU_via_Twitter
 {
 	/// <summary>
-	/// Window1.xaml の相互作用ロジック
+	/// SettingWindow.xaml の相互作用ロジック
 	/// </summary>
 	public partial class SettingWindow : Window
 	{
@@ -26,6 +26,7 @@ namespace DANMAKU_via_Twitter
 
 		public SettingWindow(MainWindow mainWindow)
 		{
+			// stop streaming when open the window
 			this.mainWindow = mainWindow;
 			mainWindow.disposeStream();
 
@@ -33,32 +34,60 @@ namespace DANMAKU_via_Twitter
 			this.DataContext = mainWindow;
 		}
 
+		/// <summary>
+		/// recalculate line height when fontfamily is changed
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			mainWindow.calcLine();
 		}
 
+		/// <summary>
+		/// recalculate line height when font size is changed
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			mainWindow.calcLine();
 		}
 
+		/// <summary>
+		/// close the window for button click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void button_Click(object sender, RoutedEventArgs e)
 		{
 			this.Close();
 		}
 
+		/// <summary>
+		/// restart streaming when closing the window
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void Window_Closed(object sender, EventArgs e)
 		{
 			mainWindow.createStream();
 		}
 
+		/// <summary>
+		/// request reauthorize with twitter
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
 			mainWindow.authorize();
 		}
 	}
 
+	/// <summary>
+	/// validation check for empty textbox
+	/// </summary>
 	public class EmptyValidationRule: ValidationRule
 	{
 		public override ValidationResult Validate(object value, CultureInfo cultureInfo)
@@ -73,6 +102,9 @@ namespace DANMAKU_via_Twitter
 		}
 	}
 
+	/// <summary>
+	/// converter for invert boolean
+	/// </summary>
 	public class InverseBooleanConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
