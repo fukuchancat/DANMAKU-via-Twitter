@@ -18,8 +18,7 @@ See [releases](https://github.com/ia15076/DANMAKU-via-Twitter/releases)
 If you want to change settings of tweets to receive or the account to use or fonts, right click on the tray icon and select "Settings".
 
 ## Licence
-Copyright © 2017 fukuchan
-
+Copyright © 2017 fukuchan  
 This software is licensed under the [MIT License](https://opensource.org/licenses/mit-license.php).
 
 ## Author
