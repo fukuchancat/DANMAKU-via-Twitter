@@ -93,6 +93,7 @@ namespace DANMAKU_via_Twitter
 			StreamTimeline	= Properties.Settings.Default.StreamTimeline;
 			Query			= Properties.Settings.Default.Query;
 			FontFamily		= new FontFamily(Properties.Settings.Default.FontFamily);
+			FontWeight		= (FontWeight)new FontWeightConverter().ConvertFromString(Properties.Settings.Default.FontWeight);
 			FontSize		= Properties.Settings.Default.FontSize;
 			FontStyle		= (FontStyle)propertyInfo.GetValue(null, null);
 			Color			= Properties.Settings.Default.Color;
@@ -108,6 +109,7 @@ namespace DANMAKU_via_Twitter
 			Properties.Settings.Default.StreamTimeline = StreamTimeline;
 			Properties.Settings.Default.Query = Query;
 			Properties.Settings.Default.FontFamily = FontFamily.ToString();
+			Properties.Settings.Default.FontWeight = FontWeight.ToString();
 			Properties.Settings.Default.FontSize = FontSize;
 			Properties.Settings.Default.FontStyle = FontStyle.ToString();
 			Properties.Settings.Default.Color = Color;

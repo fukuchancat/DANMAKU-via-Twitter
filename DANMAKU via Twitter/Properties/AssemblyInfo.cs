@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("DANMAKU via Twitter")]
-[assembly: AssemblyCopyright("Copyright © 2017 Fukuchan")]
+[assembly: AssemblyCopyright("Copyright © 2017 fukuchan")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
