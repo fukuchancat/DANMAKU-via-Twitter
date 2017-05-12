@@ -7,6 +7,9 @@ You can receive your timeline, or you can also receive tweets containing specifi
 ## Requirement
 .NET Framework (4.5.2 or later)
 
+## Download
+See [releases](https://github.com/ia15076/DANMAKU-via-Twitter/releases)
+
 ## Usage
 1. Run DANMAKU via Twitter.exe
 2. Authentication with Twitter through your browzer is required on first boot. Please enter your PIN code then.
