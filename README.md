@@ -26,7 +26,7 @@ This software is licensed under the [MIT License](https://opensource.org/license
 
 ## By the way, I'm looking for a job :)
 Was it terrible English? I'm studying, so please do not mind!
-Anyway, I'm university student and about to start job hunting.
+Anyway, I am a university student and about to start job hunting.
 So please contact me if you are interested in.
 
 Twitter [@m_fukuchan](https://twitter.com/m_fukuchan)
