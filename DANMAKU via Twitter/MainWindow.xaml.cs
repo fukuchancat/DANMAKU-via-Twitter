@@ -3,6 +3,7 @@ using CoreTweet.Streaming;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reflection;
@@ -136,7 +137,8 @@ namespace DANMAKU_via_Twitter
 		/// </summary>
 		public void authorize()
 		{
-			OAuthSession session = OAuth.Authorize(ConsumerKey, ConsumerSecret);
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+            OAuthSession session = OAuth.Authorize(ConsumerKey, ConsumerSecret);
 			System.Diagnostics.Process.Start(session.AuthorizeUri.AbsoluteUri);
 
 			InputBox inputBox = new InputBox();
@@ -213,17 +215,26 @@ namespace DANMAKU_via_Twitter
 				StreamTimeline = true;
 			}
 
-			// start streaming
-			IConnectableObservable<StreamingMessage> stream;
+            // start streaming
+            IConnectableObservable<StreamingMessage> stream;
 			if (StreamTimeline)
 			{
-				stream = t.Streaming.UserAsObservable().Publish();
-			}
+                // get list of frinds
+                List<long> friends = t.Friends.Ids(user_id: t.UserId, count: 5000).ToList();
+
+                // Create pseudo userstream with statuses/filter
+                stream = t.Streaming.FilterAsObservable(follow: friends).Publish();
+                stream.OfType<StatusMessage>()
+                    .Where(x => x.Status.User.Id.HasValue)
+                    .Where(x => friends.Contains(x.Status.User.Id.Value))
+                    .Subscribe(x => add(x.Status.Text));
+            }
 			else
 			{
 				stream = t.Streaming.FilterAsObservable(track: Query).Publish();
-			}
-			stream.OfType<StatusMessage>().Subscribe(x => add( x.Status.Text));
+                stream.OfType<StatusMessage>().Subscribe(x => add(x.Status.Text));
+            }
+			
 
 			disporsable = stream.Connect();
 		}
