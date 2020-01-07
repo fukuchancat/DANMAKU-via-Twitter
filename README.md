@@ -1,5 +1,6 @@
 # DANMAKU via Twitter
-**(2019/06/03) The Twitter Streaming API is gone. Probably this won't work anymore. R.I.P.**
+~~(2019/06/03) The Twitter Streaming API is gone. Probably this won't work anymore. R.I.P.~~
+**(2020/01/07) It was resurrected! Although there are some restrictions, I changed some codes not to use the streaming API.**
 
 Connecting to Twitter Streaming, and displays received tweets on the screen like Nico Nico Douga.
 You can receive your timeline, or you can also receive tweets containing specific words or hashtags.
